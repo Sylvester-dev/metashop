@@ -17,7 +17,7 @@ contract NFT is ERC721URIStorage{
 // most projects store their metadata off-chain simply due to the current storage limitations of the Ethereum blockchain. The ERC721 standard, therefore, includes a method called  tokenURI that developers can implement to tell applications where to find the metadata for a given item.
   function createNFT(string memory tokenURI) public returns (uint){
      token_id.increment();
-     uint newtoken_id = token_id;  //set new tokenID
+     uint256 newtoken_id = token_id.current();  //set new tokenID
      _mint(msg.sender, newtoken_id); //mint nft
      _setTokenURI(newtoken_id,tokenURI); //set the tokenURI
      setApprovalForAll(contractAddress,true);  //Give approval to contract to transact this token b/w users
@@ -25,3 +25,4 @@ contract NFT is ERC721URIStorage{
   }
 }
 
+//do npx hardhat compile to compile contracts and producce artifacts

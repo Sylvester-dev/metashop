@@ -2,6 +2,10 @@ import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Web3Modal from "web3modal"
+import {nftaddress, nftmarketaddress} from '../config'
+
+import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
+import Market from '../artifacts/contracts/Market.sol/NFTMarket.json'
 
 function Home() {
   const [nfts, setNfts] = useState([])
@@ -13,7 +17,7 @@ function Home() {
     const provider = new ethers.providers.JsonRpcProvider()  // connection to the Ethereum Network.
     const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider) // connection to a specific contract on the Ethereum Network
     const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, provider)
-    const data = await marketContract.fetchMarketItems() //getting array of market item from contract
+    const data = await marketContract.fetchMarketItems(); //getting array of market item from contract
     
     const items = await Promise.all(data.map(async i => {
       const tokenUri = await tokenContract.tokenURI(i.tokenId)  //tokenUri is of type -> https://ipfs...
