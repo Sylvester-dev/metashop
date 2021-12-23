@@ -29,7 +29,7 @@ export default function CreateItem() {
           progress: (prog) => console.log(`received: ${prog}`)
         }
       )
-      const url = `https://ipfs.infura.io/ipfs/${added.path}`
+      const url = `https://ipfs.io/ipfs/${added.path}`
       setFileUrl(url)
     } catch (error) {
       console.log('Error uploading file: ', error)
@@ -45,7 +45,8 @@ export default function CreateItem() {
     })
     try {
       const added = await client.add(data)
-      const url = `https://ipfs.infura.io/ipfs/${added.path}`
+      const url = `https://ipfs.io/ipfs/${added.path}`;
+      console.log(url);
       /* after file is uploaded to IPFS, pass the URL to save it on ethereum */
       createSale(url)
     } catch (error) {
@@ -63,6 +64,7 @@ export default function CreateItem() {
     let contract = new ethers.Contract(nftaddress, NFT.abi, signer)  //connecting to contract
     let transaction = await contract.createNFT(url)   //creating nft and waiting 
     let tx = await transaction.wait()
+    console.log(tx);
     let event = tx.events[0]   //we need to take out tokenId from output
     let value = event.args[2]
     let tokenId = value.toNumber()
